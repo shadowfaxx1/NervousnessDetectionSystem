@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nervousness Classification</title>
+</head>
+<body>
+    <h1>Nervousness Classification</h1>
+    <form id="nameForm">
+        <label for="name">Enter your name:</label>
+        <input type="text" id="name" name="name" required>
+        <button type="submit">Start</button>
+    </form>
+    <div id="videoContainer" style="display:none;">
+        <h2>Real-time Nervousness Classification</h2>
+        <img id="videoFeed" src="">
+        <form id="terminateForm">
+            <input type="hidden" id="terminateName" name="name">
+            <button type="button" id="terminateButton">Terminate</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('nameForm').onsubmit = function(e) {
+            e.preventDefault();
+            var name = document.getElementById('name').value;
+            document.getElementById('videoFeed').src = "/video_feed?name=" + name;
+            document.getElementById('terminateName').value = name; // Set name for termination
+            document.getElementById('nameForm').style.display = 'none';
+            document.getElementById('videoContainer').style.display = 'block';
+        };
+
+        document.getElementById('terminateButton').onclick = function() {
+            fetch('/terminate', {
+                method: 'POST',
+                body: new FormData(document.getElementById('terminateForm'))
+            })
+            .then(response => response.text())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+        };
+    </script>
+</body>
+</html>

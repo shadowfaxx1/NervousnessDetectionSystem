@@ -33,7 +33,7 @@ This project uses Flask, OpenCV, MediaPipe, and DeepFace to classify and analyze
 
 4. **Set up the database:**
    ```sh
-   python setup_database.py
+   python createdatabase.py
    ```
 
 ## Usage
